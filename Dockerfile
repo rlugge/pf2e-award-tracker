@@ -6,6 +6,7 @@ RUN npm ci
 COPY . .
 
 FROM base AS builder
+RUN npx prisma generate
 RUN npm run build
 
 FROM node:20-bullseye-slim AS runner
