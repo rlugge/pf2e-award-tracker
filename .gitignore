@@ -7,3 +7,5 @@ yarn-debug.log*
 yarn-error.log*
 coverage
 prisma/dev.db
+.claude/settings.local.json
+install.log

@@ -19,14 +19,14 @@
     "next": "14.2.5",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "next-auth": "4.32.0",
+    "next-auth": "4.24.13",
     "@prisma/client": "5.15.0"
   },
   "devDependencies": {
     "@playwright/test": "1.45.0",
     "@testing-library/jest-dom": "6.1.2",
     "@testing-library/react": "14.2.1",
-    "@types/node": "20.18.0",
+    "@types/node": "^25.5.0",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "eslint": "8.57.0",
