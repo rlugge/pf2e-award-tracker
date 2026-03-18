@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  name        String?
+  password    String
+  campaigns   Campaign[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Campaign {
+  id            String    @id @default(cuid())
+  name          String
+  description   String?
+  ownerId       String
+  owner         User      @relation(fields: [ownerId], references: [id])
+  sessions      Session[]
+  members       CampaignMember[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model CampaignMember {
+  id          String    @id @default(cuid())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  campaign    Campaign  @relation(fields: [campaignId], references: [id])
+  campaignId  String
+  role        MemberRole
+  joinedAt    DateTime  @default(now())
+  leftAt      DateTime?
+
+  @@unique([userId, campaignId])
+}
+
+enum MemberRole {
+  GM
+  PLAYER
+}
+
+model Session {
+  id          String    @id @default(cuid())
+  campaign    Campaign  @relation(fields: [campaignId], references: [id])
+  campaignId  String
+  date        DateTime
+  level       Int
+  partySize   Int
+  notes       String?
+  rewards     Reward[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Reward {
+  id          String    @id @default(cuid())
+  session     Session   @relation(fields: [sessionId], references: [id])
+  sessionId   String
+  description String
+  valueGp     Float
+  category    RewardCategory
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum RewardCategory {
+  COINS
+  ITEMS
+  OTHER
+}
