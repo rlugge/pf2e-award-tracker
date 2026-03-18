@@ -2,6 +2,10 @@
 
 A full-stack Next.js + PostgreSQL app to help Pathfinder 2E Game Masters track party treasure progress against the rulebook benchmark (table 10-9). The system supports campaigns, variable party size per session, session rewards, and per-user authorization.
 
+## About this project
+
+This codebase is a portfolio project demonstrating full-stack TypeScript development with a real-world problem domain. The design and implementation are AI-driven, using Claude Code as a collaborative development partner — from architecture decisions through to code generation. The goal is to showcase how thoughtful AI-assisted development can produce clean, well-structured, production-quality software.
+
 ## Goals
 - GM-focused treasure progress tracking
 - Dynamic per-session party size + level
