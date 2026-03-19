@@ -1,27 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { signIn, useSession } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './page.module.css';
 
-export default function SignInPage() {
+export default function RegisterPage() {
   const router = useRouter();
-  const { status } = useSession();
-  const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  const callbackUrl = (() => {
-    const raw = searchParams.get('callbackUrl');
-    if (!raw) return '/campaigns';
-    try { return new URL(raw).pathname; } catch { return '/campaigns'; }
-  })();
-
-  useEffect(() => {
-    if (status === 'authenticated') router.replace(callbackUrl);
-  }, [status, router, callbackUrl]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -29,25 +17,42 @@ export default function SignInPage() {
     setLoading(true);
 
     const form = e.currentTarget;
+    const name = (form.elements.namedItem('name') as HTMLInputElement).value;
     const email = (form.elements.namedItem('email') as HTMLInputElement).value;
     const password = (form.elements.namedItem('password') as HTMLInputElement).value;
 
-    const result = await signIn('credentials', { email, password, redirect: false });
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password }),
+    });
 
-    setLoading(false);
-
-    if (result?.error) {
-      setError('Invalid email or password.');
-    } else {
-      window.location.href = callbackUrl;
+    if (!res.ok) {
+      const data = await res.json();
+      setError(data.error ?? 'Registration failed. Please try again.');
+      setLoading(false);
+      return;
     }
+
+    await signIn('credentials', { email, password, redirect: false });
+    router.push('/campaigns');
+    router.refresh();
   }
 
   return (
     <main className={styles.main}>
       <div className={styles.card}>
-        <h1 className={styles.title}>Sign In</h1>
+        <h1 className={styles.title}>Create Account</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
+          <label className={styles.label}>
+            Name <span className={styles.optional}>(optional)</span>
+            <input
+              name="name"
+              type="text"
+              autoComplete="name"
+              className={styles.input}
+            />
+          </label>
           <label className={styles.label}>
             Email
             <input
@@ -64,27 +69,22 @@ export default function SignInPage() {
               name="password"
               type="password"
               required
-              autoComplete="current-password"
+              minLength={8}
+              autoComplete="new-password"
               className={styles.input}
             />
           </label>
           {error && <p className={styles.error}>{error}</p>}
           <button type="submit" disabled={loading} className={styles.button}>
-            {loading ? 'Signing in…' : 'Sign In'}
+            {loading ? 'Creating account…' : 'Create Account'}
           </button>
         </form>
         <p className={styles.switchPrompt}>
-          No account?{' '}
-          <Link href="/auth/register" className={styles.switchLink}>
-            Create one
+          Already have an account?{' '}
+          <Link href="/auth/signin" className={styles.switchLink}>
+            Sign in
           </Link>
         </p>
-        <p className={styles.switchPrompt}>
-          Forgot your password? Contact your GM to reset your account.
-        </p>
-        <a href="/" className={styles.back}>
-          &larr; Back to home
-        </a>
       </div>
     </main>
   );

@@ -3,7 +3,6 @@
 ```
 / (root)
   /app (Next.js App Router)
-    /dashboard
     /campaigns
     /sessions
     /auth

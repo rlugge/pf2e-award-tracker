@@ -6,6 +6,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 coverage
+tsconfig.tsbuildinfo
 prisma/dev.db
 .claude/settings.local.json
 install.log
+test-results/.last-run.json

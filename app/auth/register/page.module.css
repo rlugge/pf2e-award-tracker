@@ -22,29 +22,11 @@
   margin-bottom: 1rem;
 }
 
-.body {
-  font-size: 0.95rem;
-  color: var(--color-text-muted);
-  line-height: 1.65;
-  margin-bottom: 1.75rem;
-}
-
-.back {
-  font-size: 0.875rem;
-  color: var(--color-accent);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.back:hover {
-  color: var(--color-accent-hover);
-}
-
 .form {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.25rem;
   text-align: left;
 }
 
@@ -55,6 +37,11 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--color-text);
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--color-text-muted);
 }
 
 .input {
@@ -102,7 +89,7 @@
 .switchPrompt {
   font-size: 0.875rem;
   color: var(--color-text-muted);
-  margin: 0 0 1rem;
+  margin: 0;
 }
 
 .switchLink {

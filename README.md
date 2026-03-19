@@ -28,7 +28,39 @@ This codebase is a portfolio project demonstrating full-stack TypeScript develop
 - `docs/project-structure.md`
 
 ## Quick start
-1. `docker compose up --build`
-2. `npm install`
-3. `npm run migrate` (Prisma migration)
-4. `npm run dev`
+
+### Environment files
+Two gitignored env files are required before running anything:
+
+**`.env`** — used by Prisma CLI tools (`migrate`, `generate`, `studio`):
+```
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/rewardtracking?schema=public"
+```
+
+**`.env.local`** — used by the Next.js dev server:
+```
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=<random string — generate with: node -e "console.log(require('crypto').randomBytes(32).toString('base64'))">
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/rewardtracking?schema=public"
+```
+
+> `.env` and `.env.local` serve different toolchains. Prisma CLI reads `.env`; Next.js reads `.env.local`. Both are needed.
+
+### Steps
+1. Create `.env` and `.env.local` as above
+2. `docker compose up --build`
+3. `npm install`
+4. `npx prisma generate`
+5. `npm run migrate`
+6. `npm run dev`
+
+## Common commands
+```bash
+npm run dev          # start dev server
+npm test             # run unit tests
+npm run test:e2e     # run e2e tests (Playwright)
+npm run lint         # ESLint
+npm run typecheck    # TypeScript check
+npm run format       # Prettier
+npm run migrate      # run Prisma migrations
+```

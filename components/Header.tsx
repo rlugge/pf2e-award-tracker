@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import HeaderAuth from './HeaderAuth';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -18,9 +19,7 @@ export default function Header() {
           </Link>
         </nav>
         <div className={styles.actions}>
-          <Link href="/auth/signin" className={styles.signInBtn}>
-            Sign In
-          </Link>
+          <HeaderAuth />
         </div>
       </div>
     </header>

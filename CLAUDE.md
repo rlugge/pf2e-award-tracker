@@ -29,7 +29,6 @@ docker compose up --build  # start full stack (app + postgres)
 ## Project structure
 ```
 app/              # Next.js App Router pages/routes
-  dashboard/
   campaigns/
   sessions/
   auth/
